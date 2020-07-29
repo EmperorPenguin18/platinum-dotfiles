@@ -11,6 +11,7 @@ sudo apt-get install rclone mergerfs openvpn qbittorrent-nox git unzip jq
 git pull https://github.com/EmperorPenguin18/MediaServer
 
 #Setup rclone mount
+sudo echo "user_allow_other" >> /etc/fuse.conf
 sudo mv ./MediaServer/rclone.conf /mnt/rclone.conf
 sudo mkdir /mnt/Cloud
 sudo mv ./MediaServer/rclone.service /etc/systemd/system/rclone.service
