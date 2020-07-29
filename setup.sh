@@ -63,6 +63,9 @@ mv Radarr /opt
 rm Radarr.develop.*.linux.tar.gz
 sudo mv ./MediaServer/radarr.service /etc/systemd/system/radarr.service
 
+#Setup nightly uploads
+sudo echo "0 2 * * * root /usr/bin/timeout -k 5 6h /usr/bin/rclone move -P /mnt/Local encrypted: --exclude-from *partial~ --delete-empty-src-dirs --min-age 1d /etc/cron.daily" > /etc/crontab
+
 #Cleanup
 sudo mv ./MediaServer/setup.sh ./setup.sh
 sudo rm -r MediaServer
