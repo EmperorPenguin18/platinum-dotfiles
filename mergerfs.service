@@ -5,7 +5,7 @@ After=rclone.service
 
 [Service]
 Type=forking
-ExecStart=/usr/bin/mergerfs /mnt/Local:/mnt/Cloud /mnt/MergerFS -o use_ino,cache.files=off,dropcacheonclose=true,allow_other,category.create=mfs
+ExecStart=/usr/bin/mergerfs -o use_ino,cache.files=off,dropcacheonclose=true,allow_other,category.create=mfs /mnt/Local=RW:/mnt/Cloud=RO /mnt/MergerFS
 KillMode=process
 Restart=on-failure
 
