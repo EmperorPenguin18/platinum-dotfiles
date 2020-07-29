@@ -42,6 +42,8 @@ tar -xvzf Radarr.develop.*.linux.tar.gz
 mv Radarr /opt
 rm Radarr.develop.*.linux.tar.gz
 sudo mv ./MediaServer/radarr.service /etc/systemd/system/radarr.service
+sudo mv ./MediaServer/setup.sh ./setup.sh
+sudo rm -r MediaServer
 sudo systemctl daemon-reload
 sudo systemctl enable rclone
 sudo systemctl enable mergerfst
