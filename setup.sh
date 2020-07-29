@@ -16,10 +16,8 @@ sudo mkdir /mnt/Cloud
 sudo mv ./MediaServer/rclone.service /etc/systemd/system/rclone.service
 
 #Setup mergerfs
-sudo mkdir /mnt/MergerTV
-sudo mkdir /mnt/MergerMovies
-sudo mv ./MediaServer/mergerfst.service /etc/systemd/system/mergerfst.service
-sudo mv ./MediaServer/mergerfsm.service /etc/systemd/system/mergerfsm.service
+sudo mkdir /mnt/MergerFS
+sudo mv ./MediaServer/mergerfs.service /etc/systemd/system/mergerfs.service
 
 #Setup VPN
 wget https://account.surfshark.com/api/v1/server/configurations
@@ -67,8 +65,7 @@ sudo mv ./MediaServer/setup.sh ./setup.sh
 sudo rm -r MediaServer
 sudo systemctl daemon-reload
 sudo systemctl enable rclone
-sudo systemctl enable mergerfst
-sudo systemctl enable mergerfsm
+sudo systemctl enable mergerfs
 sudo systemctl enable --now openvpn
 sudo systemctl enable qbittorrent
 sudo systemctl enable sonarr
