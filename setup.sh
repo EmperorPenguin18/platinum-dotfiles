@@ -17,6 +17,9 @@ sudo mkdir /mnt/Cloud
 sudo mv ./MediaServer/rclone.service /etc/systemd/system/rclone.service
 
 #Setup mergerfs
+sudo mkdir /mnt/Local
+sudo mkdir /mnt/Local/TV
+sudo mkdir /mnt/Local/Movies
 sudo mkdir /mnt/MergerFS
 sudo mv ./MediaServer/mergerfs.service /etc/systemd/system/mergerfs.service
 
@@ -37,8 +40,7 @@ sudo echo "nameserver 1.1.1.1" > /etc/resolv.conf
 sudo mv ./MediaServer/dnsleaktest.sh ./dnsleaktest.sh
 
 #Setup torrent client
-sudo mkdir /mnt/Downloads/TV
-sudo mkdir /mnt/Downloads/Movies
+sudo mkdir /mnt/Downloads
 sudo mv ./MediaServer/qbittorrent.service /etc/systemd/system/qbittorrent.service
 
 #Install Jackett
