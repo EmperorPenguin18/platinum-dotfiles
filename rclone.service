@@ -22,7 +22,7 @@ ExecStart=/usr/bin/rclone mount \
         --cache-db-path=/tmp/rclone/db \
         --no-modtime \
         --drive-use-trash \
-        --stats=0 onedriveschool:/ /mnt/OneDrive
+        --stats=0 encrypted:/ /mnt/OneDrive
 ExecStop=/bin/fusermount -u /mnt/OneDrive
 Restart=always
 RestartSec=30
