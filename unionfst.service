@@ -1,0 +1,14 @@
+[Unit]
+Description=UnionFS TV
+AssertPathIsDirectory=/mnt/UnionTV
+After=network-online.target
+
+[Service]
+Type=forking
+ExecStart=/usr/bin/unionfs -o cow,allow_other,nonempty /mnt/OneDrive/Media/TV/=RW:/home/pi/TV/=RO /mnt/UnionTV
+ExecStop=/bin/fusermount -u /mnt/UnionTV
+Restart=always
+RestartSec=30
+
+[Install]
+WantedBy=multi-user.target

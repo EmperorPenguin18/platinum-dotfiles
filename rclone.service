@@ -1,0 +1,31 @@
+[Unit]
+Description=OneDrive (rclone)
+AssertPathIsDirectory=/mnt/OneDrive
+After=network-online.target
+
+[Service]
+Type=simple
+ExecStart=/usr/bin/rclone mount \
+        --config=/mnt/rclone.conf \
+        --allow-other \
+        --vfs-cache-mode writes \
+        --dir-cache-time=160h \
+        --cache-chunk-size=10M \
+        --cache-info-age=168h \
+        --cache-tmp-upload-path=/tmp/rclone/upload \
+        --cache-chunk-path=/tmp/rclone/chunks \
+        --cache-workers=5 \
+        --buffer-size 0M \
+        --umask 002 \
+        --cache-writes \
+        --cache-dir=/tmp/rclone/vfs \
+        --cache-db-path=/tmp/rclone/db \
+        --no-modtime \
+        --drive-use-trash \
+        --stats=0 onedriveschool:/ /mnt/OneDrive
+ExecStop=/bin/fusermount -u /mnt/OneDrive
+Restart=always
+RestartSec=30
+
+[Install]
+WantedBy=default.target
