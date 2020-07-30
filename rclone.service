@@ -11,9 +11,8 @@ ExecStart=/usr/bin/rclone mount \
         --allow-other \
         --dir-cache-time 1000h \
         --log-level INFO \
-        --poll-interval 15s \
-        --vfs-read-chunk-size 32M
-        --stats=0 encrypted:/ /mnt/Cloud
+        --vfs-read-chunk-size 32M \
+        encrypted:/ /mnt/Cloud
 ExecStop=/bin/fusermount -uz /mnt/Cloud
 Restart=on-failure
 RestartSec=5
