@@ -7,8 +7,7 @@ sudo echo "static routers=192.168.0.1" >> /etc/dhcpcd.conf
 sudo echo "static domain_name_servers=1.1.1.1" >> /etc/dhcpcd.conf
 
 #Install all necessary things
-sudo apt-get install rclone openvpn qbittorrent-nox git unzip jq
-git pull https://github.com/EmperorPenguin18/MediaServer
+sudo apt-get install rclone openvpn qbittorrent-nox unzip jq
 
 #Setup rclone mount
 sudo echo "user_allow_other" >> /etc/fuse.conf
@@ -78,7 +77,7 @@ sudo systemctl enable mergerfs
 sudo systemctl enable --now openvpn
 sudo systemctl enable qbittorrent
 sudo systemctl enable sonarr
-suod systemctl enable radarr
+sudo systemctl enable radarr
 ./dnsleaktest.sh
 sleep 5
 sudo reboot
