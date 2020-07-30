@@ -13,7 +13,7 @@ echo "static routers=192.168.0.1" >> /etc/dhcpcd.conf
 echo "static domain_name_servers=1.1.1.1" >> /etc/dhcpcd.conf
 
 #Install all necessary things
-apt-get install -y rclone openvpn qbittorrent-nox unzip jq
+apt-get install -y rclone openvpn qbittorrent-nox unzip jq apt-transport-https
 
 #Setup rclone mount
 echo "user_allow_other" >> /etc/fuse.conf
@@ -76,6 +76,18 @@ mv ./radarr.service /etc/systemd/system/radarr.service
 #Setup nightly uploads
 echo "0 2 * * * root /usr/bin/timeout -k 5 6h /usr/bin/rclone move -P /mnt/Local encrypted: --exclude-from *partial~ --delete-empty-src-dirs --min-age 1d /etc/cron.daily" > /etc/crontab
 
+#Install Jellyfin
+wget -O - https://repo.jellyfin.org/jellyfin_team.gpg.key | apt-key add -
+echo "deb [arch=$( dpkg --print-architecture )] https://repo.jellyfin.org/$( awk -F'=' '/^ID=/{ print $NF }' /etc/os-release ) $( awk -F'=' '/^VERSION_CODENAME=/{ print $NF }' /etc/os-release ) main" | tee /etc/apt/sources.list.d/jellyfin.list
+apt update
+apt install jellyfin
+
+#Install Ombi
+echo "deb [arch=amd64,armhf] http://repo.ombi.turd.me/stable/ jessie main" | tee "/etc/apt/sources.list.d/ombi.list"
+wget -qO - https://repo.ombi.turd.me/pubkey.txt | apt-key add -
+apt update
+apt install ombi
+
 #Cleanup
 cd ../
 mv ./MediaServer/setup.sh ./setup.sh
@@ -87,6 +99,8 @@ systemctl enable --now openvpn
 systemctl enable qbittorrent
 systemctl enable sonarr
 systemctl enable radarr
+systemctl enable jellyfin
+systemctl enable ombi
 ./dnsleaktest.sh
 sleep 5
 reboot
