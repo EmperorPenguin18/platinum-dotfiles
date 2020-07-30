@@ -13,7 +13,7 @@ echo "static routers=192.168.0.1" >> /etc/dhcpcd.conf
 echo "static domain_name_servers=1.1.1.1" >> /etc/dhcpcd.conf
 
 #Install all necessary things
-apt-get install rclone openvpn qbittorrent-nox unzip jq
+apt-get install -y rclone openvpn qbittorrent-nox unzip jq
 
 #Setup rclone mount
 echo "user_allow_other" >> /etc/fuse.conf
@@ -62,7 +62,7 @@ mv Jackett ../Jackett
 apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 0xA236C58F409091A18ACA53CBEBFF6B99D9B78493
 echo "deb http://apt.sonarr.tv/ master main" | sudo tee /etc/apt/sources.list.d/sonarr.list
 apt update
-apt install nzbdrone
+apt install -y nzbdrone
 mv ./sonarr.service /etc/systemd/system/sonarr.service
 
 #Install Radarr
