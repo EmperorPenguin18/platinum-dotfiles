@@ -33,7 +33,7 @@ mv ./mergerfs.service /etc/systemd/system/mergerfs.service
 
 #Setup VPN
 wget https://account.surfshark.com/api/v1/server/configurations
-unzip -o /etc/openvpn configurations
+unzip configurations -d /etc/openvpn/
 rm configurations
 sed -i 's/auth-user-pass/auth-user-pass pass.txt/g' /etc/openvpn/ca-tor.prod.surfshark.com_udp.ovpn
 mv ./pass.txt /etc/openvpn/pass.txt
@@ -46,6 +46,7 @@ echo "net.ipv6.conf.lo.disable_ipv6=1" >> /etc/sysctl.conf
 echo "net.ipv6.conf.eth0.disable_ipv6=1" >> /etc/sysctl.conf
 echo "nameserver 1.1.1.1" > /etc/resolv.conf
 mv ./dnsleaktest.sh ../dnsleaktest.sh
+chmod +x ../dnsleaktest.sh
 
 #Setup torrent client
 mkdir /mnt/Downloads
