@@ -13,7 +13,7 @@ echo "static routers=192.168.0.1" >> /etc/dhcpcd.conf
 echo "static domain_name_servers=1.1.1.1" >> /etc/dhcpcd.conf
 
 #Install all necessary things
-apt-get install -y rclone openvpn qbittorrent-nox unzip jq apt-transport-https
+apt-get install -y rclone openvpn qbittorrent-nox unzip apt-transport-https
 
 #Setup rclone mount
 echo "user_allow_other" >> /etc/fuse.conf
@@ -32,21 +32,12 @@ mkdir /mnt/MergerFS
 mv ./mergerfs.service /etc/systemd/system/mergerfs.service
 
 #Setup VPN
-wget https://account.surfshark.com/api/v1/server/configurations
-unzip configurations -d /etc/openvpn/
-rm configurations
-sed -i 's/auth-user-pass/auth-user-pass pass.txt/g' /etc/openvpn/ca-tor.prod.surfshark.com_udp.ovpn
-mv ./pass.txt /etc/openvpn/pass.txt
+unzip mullvad_openvpn_linux_ca_tor.zip
+rm mullvad_openvpn_linux_ca_tor.zip
+chmod +x ./mullvad_config_linux_ca_tor/update_resolv_conf
+mv ./mullvad_config_linux_ca_tor/* /etc/openvpn/
+rmdir mullvad_config_linux_ca_tor
 mv ./openvpn.service /etc/systemd/system/openvpn.service
-
-#Prevent IP leaks
-echo "net.ipv6.conf.all.disable_ipv6=1" >> /etc/sysctl.conf
-echo "net.ipv6.conf.default.disable_ipv6=1" >> /etc/sysctl.conf
-echo "net.ipv6.conf.lo.disable_ipv6=1" >> /etc/sysctl.conf
-echo "net.ipv6.conf.eth0.disable_ipv6=1" >> /etc/sysctl.conf
-echo "nameserver 1.1.1.1" > /etc/resolv.conf
-mv ./dnsleaktest.sh ../dnsleaktest.sh
-chmod +x ../dnsleaktest.sh
 
 #Setup torrent client
 mkdir /mnt/Downloads
@@ -101,6 +92,6 @@ systemctl enable sonarr
 systemctl enable radarr
 systemctl enable jellyfin
 systemctl enable ombi
-./dnsleaktest.sh
-sleep 5
+curl https://am.i.mullvad.net/connected
+sleep 10
 reboot
