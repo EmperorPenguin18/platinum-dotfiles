@@ -72,14 +72,12 @@ wget -O - https://repo.jellyfin.org/jellyfin_team.gpg.key | apt-key add -
 echo "deb [arch=$( dpkg --print-architecture )] https://repo.jellyfin.org/$( awk -F'=' '/^ID=/{ print $NF }' /etc/os-release ) $( awk -F'=' '/^VERSION_CODENAME=/{ print $NF }' /etc/os-release ) main" | tee /etc/apt/sources.list.d/jellyfin.list
 apt update
 apt install jellyfin
-iptables -t nat -I PREROUTING -p tcp --dport 24432 -j REDIRECT --to 8096
 
 #Install Ombi
 echo "deb [arch=amd64,armhf] http://repo.ombi.turd.me/stable/ jessie main" | tee "/etc/apt/sources.list.d/ombi.list"
 wget -qO - https://repo.ombi.turd.me/pubkey.txt | apt-key add -
 apt update
 apt install ombi
-iptables -t nat -I PREROUTING -p tcp --dport 27147 -j REDIRECT --to 5000
 
 #Cleanup
 cd ../
