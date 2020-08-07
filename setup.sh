@@ -42,9 +42,9 @@ mkdir /mnt/Downloads
 mv ./qbittorrent.service /etc/systemd/system/qbittorrent.service
 
 #Install Jackett
-wget 'https://github.com/Jackett/Jackett/releases/download/v0.16.916/Jackett.Binaries.LinuxARM32.tar.gz'
-tar -xvzf Jackett.Binaries.LinuxARM32.tar.gz
-rm Jackett.Binaries.LinuxARM32.tar.gz
+wget 'https://github.com/Jackett/Jackett/releases/download/v0.16.962/Jackett.Binaries.LinuxAMDx64.tar.gz'
+tar -xvzf Jackett.Binaries.LinuxAMDx64.tar.gz
+rm Jackett.Binaries.LinuxAMDx64.tar.gz
 mv Jackett ../Jackett
 chown -R media:media ../Jackett
 ../Jackett/install_service_systemd.sh
