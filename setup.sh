@@ -36,6 +36,7 @@ unzip mullvad_openvpn_linux_ca_tor.zip
 rm mullvad_openvpn_linux_ca_tor.zip
 chmod +x ./mullvad_config_linux_ca_tor/update_resolv_conf
 mv ./mullvad_config_linux_ca_tor/* /etc/openvpn/
+chmod +x /etc/openvpn/update-resolv-conf
 rmdir mullvad_config_linux_ca_tor
 mv ./openvpn.service /etc/systemd/system/openvpn.service
 
