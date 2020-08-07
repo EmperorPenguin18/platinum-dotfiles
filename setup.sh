@@ -13,7 +13,7 @@ echo "static routers=192.168.0.1" >> /etc/dhcpcd.conf
 echo "static domain_name_servers=1.1.1.1" >> /etc/dhcpcd.conf
 
 #Install all necessary things
-apt-get install -y rclone openvpn qbittorrent-nox unzip apt-transport-https
+apt-get install -y rclone openvpn qbittorrent-nox unzip apt-transport-https software-properties-common
 
 #Setup rclone mount
 echo "user_allow_other" >> /etc/fuse.conf
@@ -78,6 +78,13 @@ echo "deb [arch=amd64,armhf] http://repo.ombi.turd.me/stable/ jessie main" | tee
 wget -qO - https://repo.ombi.turd.me/pubkey.txt | apt-key add -
 apt update
 apt install ombi
+
+#Setup ssl
+openssl req -x509 -newkey rsa:4096 -keyout key.pem -out cert.pem -days 365 -nodes -subj '/CN=sebastienml.engineer'
+openssl pkcs12 -export -out keyStore.p12 -inkey key.pem -in cert.pem -passout pass:
+mv cert.pem ../
+mv key.pem ../
+mv keyStore.p12 ../
 
 #Cleanup
 cd ../
