@@ -82,9 +82,13 @@ apt install ombi
 #Setup ssl
 openssl req -x509 -newkey rsa:4096 -keyout key.pem -out cert.pem -days 365 -nodes -subj '/CN=sebastienml.engineer'
 openssl pkcs12 -export -out keyStore.p12 -inkey key.pem -in cert.pem -passout pass:
-mv cert.pem ../
-mv key.pem ../
-mv keyStore.p12 ../
+chmod 777 /mnt
+chmod 777 cert.pem
+mv cert.pem /mnt/
+chmod 777 key.pem
+mv key.pem /mnt/
+chmod 777 keyStore.p12
+mv keyStore.p12 /mnt/
 
 #Cleanup
 cd ../
