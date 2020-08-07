@@ -46,6 +46,7 @@ wget 'https://github.com/Jackett/Jackett/releases/download/v0.16.916/Jackett.Bin
 tar -xvzf Jackett.Binaries.LinuxARM32.tar.gz
 rm Jackett.Binaries.LinuxARM32.tar.gz
 mv Jackett ../Jackett
+chown -R media:media ../Jackett
 ../Jackett/install_service_systemd.sh
 
 #Install Sonarr
