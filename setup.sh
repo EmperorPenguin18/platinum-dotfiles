@@ -98,12 +98,10 @@ rm -r MediaServer
 systemctl daemon-reload
 systemctl enable rclone
 systemctl enable mergerfs
-systemctl enable --now openvpn
+systemctl enable openvpn
 systemctl enable qbittorrent
 systemctl enable sonarr
 systemctl enable radarr
 systemctl enable jellyfin
 systemctl enable ombi
-curl https://am.i.mullvad.net/connected
-sleep 10
 reboot
