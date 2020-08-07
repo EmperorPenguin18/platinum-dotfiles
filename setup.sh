@@ -8,7 +8,7 @@ fi
 
 #Set a static IP address
 echo "interface eth0" >> /etc/dhcpcd.conf
-echo "static ip_address=192.168.0.30/24" >> /etc/dhcpcd.conf
+echo "static ip_address=192.168.0.19/24" >> /etc/dhcpcd.conf
 echo "static routers=192.168.0.1" >> /etc/dhcpcd.conf
 echo "static domain_name_servers=1.1.1.1" >> /etc/dhcpcd.conf
 
