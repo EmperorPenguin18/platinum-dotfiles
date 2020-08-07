@@ -13,7 +13,7 @@ echo "static routers=192.168.0.1" >> /etc/dhcpcd.conf
 echo "static domain_name_servers=1.1.1.1" >> /etc/dhcpcd.conf
 
 #Install all necessary things
-apt-get install -y rclone openvpn qbittorrent-nox unzip apt-transport-https software-properties-common
+apt-get install -y rclone mergerfs openvpn qbittorrent-nox unzip apt-transport-https software-properties-common
 
 #Setup rclone mount
 echo "user_allow_other" >> /etc/fuse.conf
@@ -22,9 +22,6 @@ mkdir /mnt/Cloud
 mv ./rclone.service /etc/systemd/system/rclone.service
 
 #Setup mergerfs
-wget 'https://github.com/trapexit/mergerfs/releases/download/2.29.0/mergerfs_2.29.0.debian-buster_armhf.deb'
-dpkg -i mergerfs_2.29.0.debian-buster_armhf.deb
-rm mergerfs_2.29.0.debian-buster_armhf.deb
 mkdir /mnt/Local
 mkdir /mnt/Local/TV
 mkdir /mnt/Local/Movies
