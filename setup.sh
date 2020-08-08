@@ -1,4 +1,4 @@
-#Run this once you have updated your system and run raspi-config
+#Run this once you have updated and configured your system
 
 #Check if script has root privileges
 if [[ $EUID -ne 0 ]]; then
@@ -13,7 +13,7 @@ echo "static routers=192.168.0.1" >> /etc/dhcpcd.conf
 echo "static domain_name_servers=1.1.1.1" >> /etc/dhcpcd.conf
 
 #Install all necessary things
-apt-get install -y rclone mergerfs openvpn qbittorrent-nox unzip apt-transport-https software-properties-common
+apt-get install -y rclone mergerfs openvpn qbittorrent-nox unzip apt-transport-https software-properties-common nginx
 
 #Setup rclone mount
 echo "user_allow_other" >> /etc/fuse.conf
@@ -78,16 +78,9 @@ wget -qO - https://repo.ombi.turd.me/pubkey.txt | apt-key add -
 apt update
 apt install ombi
 
-#Setup ssl
-openssl req -x509 -newkey rsa:4096 -keyout key.pem -out cert.pem -days 365 -nodes -subj '/CN=sebastienml.engineer'
-openssl pkcs12 -export -out keyStore.p12 -inkey key.pem -in cert.pem -passout pass:
-chmod 777 /mnt
-chmod 777 cert.pem
-mv cert.pem /mnt/
-chmod 777 key.pem
-mv key.pem /mnt/
-chmod 777 keyStore.p12
-mv keyStore.p12 /mnt/
+#Setup nginx
+mv jellyfin.conf /etc/nginx/conf.d/jellyfin.conf
+mv ombi.conf /etc/nginx/conf.d/ombi.conf
 
 #Cleanup
 cd ../
@@ -102,4 +95,5 @@ systemctl enable sonarr
 systemctl enable radarr
 systemctl enable jellyfin
 systemctl enable ombi
+systemctl enable nginx
 reboot
