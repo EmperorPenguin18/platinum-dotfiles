@@ -39,6 +39,8 @@ mv ./openvpn.service /etc/systemd/system/openvpn.service
 
 #Setup torrent client
 mkdir /mnt/Downloads
+mkdir -p /.config/qBittorrent
+mv qBittorrent.conf /.config/qBittorrent/qBittorrent.conf
 mv ./qbittorrent.service /etc/systemd/system/qbittorrent.service
 
 #Install Jackett
