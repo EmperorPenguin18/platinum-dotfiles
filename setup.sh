@@ -64,7 +64,9 @@ rm Radarr.develop.*.linux.tar.gz
 mv ./radarr.service /etc/systemd/system/radarr.service
 
 #Setup nightly uploads
-echo "0 2 * * * root /usr/bin/timeout -k 5 6h /usr/bin/rclone move -P /mnt/Local encrypted: --exclude-from *partial~ --delete-empty-src-dirs --min-age 1d /etc/cron.daily" > /etc/crontab
+mv upload.sh ../upload.sh
+chmod +x ../upload.sh
+echo "0 2 * * * root /usr/bin/timeout -k 6h /home/media/upload.sh" > /etc/crontab
 
 #Install Jellyfin
 wget -O - https://repo.jellyfin.org/jellyfin_team.gpg.key | apt-key add -
