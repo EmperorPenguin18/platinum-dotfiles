@@ -13,7 +13,7 @@ echo "static routers=192.168.0.1" >> /etc/dhcpcd.conf
 echo "static domain_name_servers=1.1.1.1" >> /etc/dhcpcd.conf
 
 #Install all necessary things
-apt-get install -y rclone mergerfs openvpn qbittorrent-nox unzip apt-transport-https software-properties-common nginx
+apt-get install -y rclone mergerfs openvpn qbittorrent-nox unzip apt-transport-https software-properties-common nginx inotify-tools
 
 #Setup rclone mount
 echo "user_allow_other" >> /etc/fuse.conf
@@ -27,6 +27,7 @@ mkdir /mnt/Local/TV
 mkdir /mnt/Local/Movies
 mkdir /mnt/MergerFS
 mv ./mergerfs.service /etc/systemd/system/mergerfs.service
+echo "fs.inotify.max_user_watches=262144" >> /etc/sysctl.conf
 
 #Setup VPN
 unzip mullvad_openvpn_linux_ca_tor.zip
