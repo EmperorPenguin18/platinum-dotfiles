@@ -86,6 +86,8 @@ apt install ombi
 #Setup nginx
 mv jellyfin.conf /etc/nginx/conf.d/jellyfin.conf
 mv ombi.conf /etc/nginx/conf.d/ombi.conf
+rm /etc/nginx/nginx.conf
+mv ./nginx.conf /etc/nginx/nginx.conf
 
 #Cleanup
 cd ../
