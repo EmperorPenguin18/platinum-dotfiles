@@ -104,3 +104,5 @@ systemctl enable jellyfin
 systemctl enable ombi
 systemctl enable nginx
 reboot
+
+#https://www.youtube.com/watch?v=z8hizZRX5-4&ab_channel=SunKnudsen
