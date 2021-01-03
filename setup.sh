@@ -106,3 +106,4 @@ systemctl enable nginx
 reboot
 
 #https://www.youtube.com/watch?v=z8hizZRX5-4&ab_channel=SunKnudsen
+#https://www.howtogeek.com/443156/the-best-ways-to-secure-your-ssh-server/
