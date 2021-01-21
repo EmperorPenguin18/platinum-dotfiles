@@ -1,4 +1,4 @@
-# MediaServer
+# platinum-dotfiles
 
 **NOT READY FOR USE**
 
