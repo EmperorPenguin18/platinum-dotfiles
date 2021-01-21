@@ -17,9 +17,9 @@ apt-get install -y rclone mergerfs openvpn qbittorrent-nox unzip apt-transport-h
 
 #Setup rclone mount
 echo "user_allow_other" >> /etc/fuse.conf
-mv ./rclone.conf /mnt/rclone.conf
-mkdir /mnt/Cloud
-mv ./rclone.service /etc/systemd/system/rclone.service
+#mv ./rclone.conf /mnt/rclone.conf
+#mkdir /mnt/Cloud
+#mv ./rclone.service /etc/systemd/system/rclone.service
 
 #Setup mergerfs
 mkdir /mnt/Local
@@ -30,13 +30,13 @@ mv ./mergerfs.service /etc/systemd/system/mergerfs.service
 echo "fs.inotify.max_user_watches=262144" >> /etc/sysctl.conf
 
 #Setup VPN
-unzip mullvad_openvpn_linux_ca_tor.zip
-rm mullvad_openvpn_linux_ca_tor.zip
-chmod +x ./mullvad_config_linux_ca_tor/update_resolv_conf
-mv ./mullvad_config_linux_ca_tor/* /etc/openvpn/
-chmod +x /etc/openvpn/update-resolv-conf
-rmdir mullvad_config_linux_ca_tor
-mv ./openvpn.service /etc/systemd/system/openvpn.service
+#unzip mullvad_openvpn_linux_ca_tor.zip
+#rm mullvad_openvpn_linux_ca_tor.zip
+#chmod +x ./mullvad_config_linux_ca_tor/update_resolv_conf
+#mv ./mullvad_config_linux_ca_tor/* /etc/openvpn/
+#chmod +x /etc/openvpn/update-resolv-conf
+#rmdir mullvad_config_linux_ca_tor
+#mv ./openvpn.service /etc/systemd/system/openvpn.service
 
 #Setup torrent client
 mkdir /mnt/Downloads
@@ -75,13 +75,13 @@ echo "0 0 * * * root /home/media/upload.sh" > /etc/crontab
 wget -O - https://repo.jellyfin.org/jellyfin_team.gpg.key | apt-key add -
 echo "deb [arch=$( dpkg --print-architecture )] https://repo.jellyfin.org/$( awk -F'=' '/^ID=/{ print $NF }' /etc/os-release ) $( awk -F'=' '/^VERSION_CODENAME=/{ print $NF }' /etc/os-release ) main" | tee /etc/apt/sources.list.d/jellyfin.list
 apt update
-apt install jellyfin
+apt install -y jellyfin
 
 #Install Ombi
 echo "deb [arch=amd64,armhf] http://repo.ombi.turd.me/stable/ jessie main" | tee "/etc/apt/sources.list.d/ombi.list"
 wget -qO - https://repo.ombi.turd.me/pubkey.txt | apt-key add -
 apt update
-apt install ombi
+apt install -y ombi
 
 #Setup nginx
 mv jellyfin.conf /etc/nginx/conf.d/jellyfin.conf
@@ -107,3 +107,10 @@ reboot
 
 #https://www.youtube.com/watch?v=z8hizZRX5-4&ab_channel=SunKnudsen
 #https://www.howtogeek.com/443156/the-best-ways-to-secure-your-ssh-server/
+#*NFS*
+#*Config files*
+#*Network better*
+#*VPN better*
+#*Combine nginx*
+#*Service permissions*
+#*Rclone passwords*
