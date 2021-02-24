@@ -13,7 +13,7 @@ echo "static routers=192.168.0.1" >> /etc/dhcpcd.conf
 echo "static domain_name_servers=1.1.1.1" >> /etc/dhcpcd.conf
 
 #Install all necessary things
-apt-get install -y rclone mergerfs openvpn qbittorrent-nox unzip apt-transport-https software-properties-common nginx inotify-tools
+apt-get install -y rclone mergerfs openvpn qbittorrent-nox unzip apt-transport-https software-properties-common nginx inotify-tools nfs-kernel-server
 
 #Setup rclone mount
 echo "user_allow_other" >> /etc/fuse.conf
@@ -28,6 +28,10 @@ mkdir /mnt/Local/Movies
 mkdir /mnt/MergerFS
 mv ./mergerfs.service /etc/systemd/system/mergerfs.service
 echo "fs.inotify.max_user_watches=262144" >> /etc/sysctl.conf
+
+#Setup NFS server
+echo "/mnt/MergerFS 10.0.0.0/24(rw,sync,no_subtree_check,fsid=1)" > /etc/exports
+exportfs -a
 
 #Setup VPN
 #unzip mullvad_openvpn_linux_ca_tor.zip
@@ -96,6 +100,7 @@ rm -r MediaServer
 systemctl daemon-reload
 systemctl enable rclone
 systemctl enable mergerfs
+systemctl enable nfs-kernel-server
 systemctl enable openvpn
 systemctl enable qbittorrent
 systemctl enable sonarr
@@ -107,7 +112,6 @@ reboot
 
 #https://www.youtube.com/watch?v=z8hizZRX5-4&ab_channel=SunKnudsen
 #https://www.howtogeek.com/443156/the-best-ways-to-secure-your-ssh-server/
-#*NFS*
 #*Config files*
 #*Network better*
 #*VPN better*
