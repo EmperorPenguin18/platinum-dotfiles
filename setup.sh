@@ -11,7 +11,7 @@ mkdir -p /etc/fstab.d
 mkdir -p /media
 
 #Install packages
-apt-get install -y rclone mergerfs wireguard inotify-tools nfs-kernel-server docker.io >/dev/null || exit 1
+apt-get install -y rclone mergerfs wireguard inotify-tools nfs-kernel-server docker.io resolvconf >/dev/null || exit 1
 
 #Setup disks
 ln -sf /mnt/$ROOTNAME/configs/external.fstab /etc/fstab.d/external.fstab || exit 1
@@ -30,8 +30,7 @@ export \
   QBT_EULA=accept \
   QBT_VERSION=latest \
   QBT_WEBUI_PORT=8080 \
-  QBT_CONFIG_PATH="/media/configs" \
-  QBT_DOWNLOADS_PATH="/media/downloads" && \
+  QBT_CONFIG_PATH="/media/configs/qbittorrent" && \
 docker run \
   -d \
   --restart always \
@@ -46,7 +45,7 @@ docker run \
   -p 6881:6881/tcp \
   -p 6881:6881/udp \
   -v "$QBT_CONFIG_PATH":/config \
-  -v "$QBT_DOWNLOADS_PATH":/downloads \
+  -v /media:/media \
   qbittorrentofficial/qbittorrent-nox:${QBT_VERSION} || \
 exit 1
 
@@ -60,7 +59,7 @@ docker run -d \
   -e AUTO_UPDATE=true `#optional` \
   -e RUN_OPTS= `#optional` \
   -p 9117:9117 \
-  -v /media/configs:/config \
+  -v /media/configs/jackett:/config \
   -v /dev/null:/downloads \
   --restart unless-stopped \
   lscr.io/linuxserver/jackett:latest || \
@@ -76,8 +75,8 @@ docker run -d \
   -e PGID=1000 \
   -e UMASK=002 \
   -e TZ="Etc/UTC" \
-  -v /media/configs:/config \
-  -v /media/data:/data \
+  -v /media/configs/sonarr:/config \
+  -v /media:/media \
   ghcr.io/hotio/sonarr || \
 exit 1
 
@@ -91,8 +90,8 @@ docker run -d \
   -e PGID=1000 \
   -e UMASK=002 \
   -e TZ="Etc/UTC" \
-  -v /media/configs:/config \
-  -v /media/data:/data \
+  -v /media/configs/radarr:/config \
+  -v /media:/media \
   ghcr.io/hotio/radarr || \
 exit 1
 
@@ -106,8 +105,8 @@ docker run -d \
   -e PGID=1000 \
   -e UMASK=002 \
   -e TZ="Etc/UTC" \
-  -v /media/configs:/config \
-  -v /media/data:/data \
+  -v /media/configs/lidarr:/config \
+  -v /media:/media \
   ghcr.io/hotio/lidarr || \
 exit 1
 
@@ -116,22 +115,28 @@ docker pull jellyfin/jellyfin:latest && \
 docker run \
   -d \
   --restart always \
-  -v /media/configs:/config \
+  --name jellyfin \
+  -e PUID=1000 \
+  -e PGID=1000 \
+  -e UMASK=002 \
+  -v /media/configs/jellyfin:/config \
   -v /media/cache:/cache \
   -v /media:/media \
   --net=host \
   jellyfin/jellyfin || \
 exit 1
 
-#Install overseerr
-docker pull sctx/overseerr && \
+#Install jellyseerr
+docker pull fallenbagel/jellyseerr:latest && \
 docker run -d \
-  --name overseerr \
+  --name jellyseerr \
   -e LOG_LEVEL=debug \
-  -e TZ=Asia/Tokyo \
-  -e PORT=5055 `#optional` \
+  -e TZ=Asia/Tashkent \
   -p 5055:5055 \
-  -v /media/configs:/app/config \
+  -v /media/configs/jellyseerr:/app/config \
   --restart unless-stopped \
-  sctx/overseerr || \
+  fallenbagel/jellyseerr:latest || \
 exit 1
+
+#Fix permissions
+chmod 777 -R /media || exit 1
