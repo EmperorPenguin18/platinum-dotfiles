@@ -1,5 +1,3 @@
 # platinum-dotfiles
 
-**NOT READY FOR USE**
-
-All the scripts and service files needed for media server.
+A simple script that sets up all the docker containers I use.
