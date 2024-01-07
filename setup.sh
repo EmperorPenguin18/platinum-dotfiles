@@ -14,11 +14,13 @@ mkdir -p /media
 apt-get install -y rclone mergerfs wireguard inotify-tools nfs-kernel-server docker.io resolvconf >/dev/null || exit 1
 
 #Setup disks
-ln -sf /mnt/$ROOTNAME/configs/external.fstab /etc/fstab.d/external.fstab || exit 1
+ln -sf /mnt/$ROOTNAME/configs/external.fstab /etc/fstab.d/external.fstab && \
+mount -a || \
+exit 1
 
 #Setup VPN
 ln -sf /media/configs/wg0.conf /etc/wireguard/wg0.conf && \
-systemctl enable wg-quick@wg0 || \
+systemctl enable --now wg-quick@wg0 || \
 exit 1
 
 #Setup nightly uploads
