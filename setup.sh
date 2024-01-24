@@ -6,6 +6,7 @@ if [ "$(id -u)" -ne 0 ]; then
    exit 1
 fi
 ROOTNAME=$(basename $(awk '$1 ~ /^\/dev\// && $2 == "/" { print $1 }' /proc/self/mounts))
+USER=$(ls /home)
 mkdir -p /mnt/$ROOTNAME/configs
 mkdir -p /etc/fstab.d
 mkdir -p /media
@@ -15,7 +16,7 @@ apt-get install -y rclone mergerfs wireguard inotify-tools nfs-kernel-server doc
 
 #Setup disks
 ln -sf /mnt/$ROOTNAME/configs/external.fstab /etc/fstab.d/external.fstab && \
-mount -a || \
+mount -a -T /etc/fstab.d/external.fstab || \
 exit 1
 
 #Setup VPN
@@ -63,7 +64,7 @@ docker run -d \
   -p 9117:9117 \
   -v /media/configs/jackett:/config \
   -v /dev/null:/downloads \
-  --restart unless-stopped \
+  --restart always \
   lscr.io/linuxserver/jackett:latest || \
 exit 1
 
@@ -124,7 +125,7 @@ docker run \
   -v /media/configs/jellyfin:/config \
   -v /media/cache:/cache \
   -v /media:/media \
-  --net=host \
+  -p 8096:8096 \
   jellyfin/jellyfin || \
 exit 1
 
@@ -136,9 +137,11 @@ docker run -d \
   -e TZ=Asia/Tashkent \
   -p 5055:5055 \
   -v /media/configs/jellyseerr:/app/config \
-  --restart unless-stopped \
+  --restart always \
+  -e PUID=1000 \
+  -e PGID=1000 \
   fallenbagel/jellyseerr:latest || \
 exit 1
 
 #Fix permissions
-chmod 777 -R /media || exit 1
+chown $USER:$USER -R /media || exit 1
