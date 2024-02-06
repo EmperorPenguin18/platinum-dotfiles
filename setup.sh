@@ -21,6 +21,8 @@ exit 1
 
 #Setup VPN
 ln -sf /media/configs/wg0.conf /etc/wireguard/wg0.conf && \
+sed -i 's/PersistentKeepalive = 0/PersistentKeepalive = 25/g' /etc/wireguard/wg0.conf && \
+[ ! -z "$(grep '1.1.1.1' /etc/resolv.conf)" ] && \
 systemctl enable --now wg-quick@wg0 || \
 exit 1
 
