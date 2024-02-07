@@ -12,7 +12,7 @@ mkdir -p /etc/fstab.d
 mkdir -p /media
 
 #Install packages
-apt-get install -y rclone mergerfs wireguard inotify-tools nfs-kernel-server docker.io resolvconf >/dev/null || exit 1
+apt-get install -y rclone mergerfs wireguard inotify-tools nfs-kernel-server docker.io resolvconf curl >/dev/null || exit 1
 
 #Setup disks
 ln -sf /mnt/$ROOTNAME/configs/external.fstab /etc/fstab.d/external.fstab && \
@@ -101,7 +101,9 @@ docker run -d \
 exit 1
 
 #Install lidarr
-docker pull ghcr.io/hotio/lidarr:release && \
+docker pull lscr.io/linuxserver/lidarr:latest && \
+mkdir -p /media/configs/custom-services.d /media/configs/custom-cont-init.d && \
+curl -s https://raw.githubusercontent.com/RandomNinjaAtk/arr-scripts/main/lidarr/scripts_init.bash > /media/configs/custom-cont-init.d/scripts_init.bash && \
 docker run -d \
   --restart always \
   --name lidarr \
@@ -112,7 +114,9 @@ docker run -d \
   -e TZ="Etc/UTC" \
   -v /media/configs/lidarr:/config \
   -v /media:/media \
-  ghcr.io/hotio/lidarr || \
+  -v /media/configs/custom-services.d:/custom-services.d \
+  -v /media/configs/custom-cont-init.d:/custom-cont-init.d \
+  lscr.io/linuxserver/lidarr || \
 exit 1
 
 #Install jellyfin
