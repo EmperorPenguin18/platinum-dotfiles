@@ -35,7 +35,7 @@ export \
   QBT_EULA=accept \
   QBT_VERSION=latest \
   QBT_WEBUI_PORT=8080 \
-  QBT_CONFIG_PATH="/media/configs/qbittorrent" && \
+  QBT_CONFIG_PATH="/mnt/$ROOTNAME/configs/qbittorrent" && \
 docker run \
   -d \
   --restart always \
@@ -64,14 +64,14 @@ docker run -d \
   -e AUTO_UPDATE=true `#optional` \
   -e RUN_OPTS= `#optional` \
   -p 9117:9117 \
-  -v /media/configs/jackett:/config \
+  -v /mnt/$ROOTNAME/configs/jackett:/config \
   -v /dev/null:/downloads \
   --restart always \
   lscr.io/linuxserver/jackett:latest || \
 exit 1
 
 #Install sonarr
-docker pull ghcr.io/hotio/sonarr:release && \
+docker pull ghcr.io/hotio/sonarr:latest && \
 docker run -d \
   --restart always \
   --name sonarr \
@@ -80,13 +80,13 @@ docker run -d \
   -e PGID=1000 \
   -e UMASK=002 \
   -e TZ="Etc/UTC" \
-  -v /media/configs/sonarr:/config \
+  -v /mnt/$ROOTNAME/configs/sonarr:/config \
   -v /media:/media \
   ghcr.io/hotio/sonarr || \
 exit 1
 
 #Install radarr
-docker pull ghcr.io/hotio/radarr:release && \
+docker pull ghcr.io/hotio/radarr:latest && \
 docker run -d \
   --restart always \
   --name radarr \
@@ -95,7 +95,7 @@ docker run -d \
   -e PGID=1000 \
   -e UMASK=002 \
   -e TZ="Etc/UTC" \
-  -v /media/configs/radarr:/config \
+  -v /mnt/$ROOTNAME/configs/radarr:/config \
   -v /media:/media \
   ghcr.io/hotio/radarr || \
 exit 1
@@ -112,7 +112,7 @@ docker run -d \
   -e PGID=1000 \
   -e UMASK=002 \
   -e TZ="Etc/UTC" \
-  -v /media/configs/lidarr:/config \
+  -v /mnt/$ROOTNAME/configs/lidarr:/config \
   -v /media:/media \
   -v /media/configs/custom-services.d:/custom-services.d \
   -v /media/configs/custom-cont-init.d:/custom-cont-init.d \
@@ -128,7 +128,7 @@ docker run \
   -e PUID=1000 \
   -e PGID=1000 \
   -e UMASK=002 \
-  -v /media/configs/jellyfin:/config \
+  -v /mnt/$ROOTNAME/configs/jellyfin:/config \
   -v /media/cache:/cache \
   -v /media:/media \
   -p 8096:8096 \
@@ -142,7 +142,7 @@ docker run -d \
   -e LOG_LEVEL=debug \
   -e TZ=Asia/Tashkent \
   -p 5055:5055 \
-  -v /media/configs/jellyseerr:/app/config \
+  -v /mnt/sda1/configs/jellyseerr:/app/config \
   --restart always \
   -e PUID=1000 \
   -e PGID=1000 \
