@@ -27,7 +27,7 @@ systemctl enable --now wg-quick@wg0 || \
 exit 1
 
 #Setup nightly uploads
-echo "0 0 * * * root /media/configs/backup.sh" > /etc/crontab || exit 1
+echo "0 0 * * 1 root /media/configs/backup.sh" > /etc/crontab || exit 1
 
 #Install qbittorrent
 docker pull qbittorrentofficial/qbittorrent-nox:latest && \
